@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='分类/标签',active='category1'">
+<header th:replace="back/header::headerFragment(${title},${active})"></header>
+<head>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <!-- 默认的header name是X-CSRF-TOKEN -->
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<header th:replace="back/header::headerFragment(${title},${active})"></header>
+<body class="fixed-left">
+<div id="wrapper">
+    <div th:replace="back/header::header-body"></div>
+    <div class="content-page">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">
+                            <a th:href="@{/admin/category}">分类</a>/
+                            <a th:href="@{/admin/category1}">标签</a>
+                        </h4>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <!--                            <div class="form-group" style="padding: 0; display: flex; align-items: center;">-->
+                            <!--                                <th:block th:unless="${null != contents}">-->
+                            <!--                                    <input type="text" class="form-control" placeholder="添加标签" name="title"-->
+                            <!--                                           required="required" aria-required="true"/>-->
+                            <!--                                </th:block>-->
+                            <!--                                <button type="button" class="btn btn-primary waves-effect waves-light"-->
+                            <!--                                        onclick="subArticle('publish');">-->
+                            <!--                                    保存-->
+                            <!--                                </button>-->
+                            <!--                            </div>-->
+                            <form id="tagForm" th:action="@{/admin/category1/create}" method="post">
+                                <!--                            <form id="addCategoryForm" th:action="@{/admin/add}" method="post">-->
+                                <input type="hidden" name="id"
+                                       th:value="${contents!=null and contents.id!=null}?${contents.id}: ''" id="id"/>
+                                <div class="form-group col-md-6" style="padding: 0 10px 0 0;">
+
+                                    <th:block th:if="${null != contents}">
+                                        <input type="text" class="form-control" name="tags"
+                                               required="required" aria-required="true"
+                                               th:value="${tag.tags}"/>
+                                    </th:block>
+                                    <th:block th:unless="${null != contents}">
+                                        <input type="text" class="form-control" placeholder="请输入标签" name="tags"
+                                               required="required" aria-required="true"/>
+                                    </th:block>
+                                </div>
+                                <button type="submit" class="btn btn-primary">添加</button>
+                            </form>
+
+                            <tr>
+                                <th width="35%">id</th>
+                                <th width="30%">标签名称</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="tags :${category1.list}">
+                                <tr th:id="${tags.id}">
+                                    <td>
+                                        <th:block th:text="${tags.id}"/>
+                                    </td>
+                                    <td>
+                                        <th:block th:text="${tags.tags}"/>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/admin/category1/__${tags.id}__}" class="btn btn-primary btn-sm waves-effect waves-light m-b-5">
+                                            <i class="fa fa-edit"></i> <span>编辑</span>
+                                        <!--                                        <a th:href="@{/admin/category1/__${tags.id}__}" class="btn btn-primary btn-sm waves-effect waves-light m-b-5">-->
+                                        <!--                                            <i class="fa fa-edit"></i> <span>编辑</span>-->
+                                        <a href="javascript:void(0)" th:onclick="'delTags('+${tags.id}+');'"
+                                           class="btn btn-danger btn-sm waves-effect waves-light m-b-5">
+                                            <i class="fa fa-trash-o"></i> <span>删除</span></a>
+
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+
+                        </table>
+
+
+                        <div th:replace="comm/paging :: pageAdminNav(${category1})"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div th:replace="back/footer :: footer-content"></div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:replace="back/footer :: footer"></div>
+<script type="text/javascript">
+    function delTags(id) {
+        // 获取<meta>标签中封装的_csrf信息
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        if(confirm('确定删除该标签吗?')){
+            $.ajax({
+                type:'post',
+                url : '/admin/category1/delete',
+                data: {id:id},
+                dataType: 'json',
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (result) {
+                    if (result && result.success) {
+                        window.alert("标签删除成功");
+                        window.location.reload();
+                    } else {
+                        window.alert(result.msg || '标签删除失败')
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

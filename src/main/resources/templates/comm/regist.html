@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>注册</title>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="shortcut icon" th:href="@{/user/img/bg-ico.png}"/>
+
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/js/amazeui.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/assets/css/amazeui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}"/>
+
+</head>
+<body>
+<div class="log">
+    <div class="am-g">
+        <div class="am-u-lg-3 am-u-md-6 am-u-sm-8 am-u-sm-centered log-content">
+            <center>
+                <h2 class="log-title am-animation-slide-top" style="color: black;">用户注册</h2>
+                <br>
+                <!--<form action="/regist" method="get">-->
+                <!--<form method="post" action="http://localhost:8080/addUser">-->
+                <form class="am-form" action="#" th:action="@{/regist}" th:object="${user}" method="post">
+                    <div class="am-input-group am-radius am-animation-slide-left">
+
+                        <!--                            <label for="username">用户名:</label>-->
+                        <input type="text" id="username" name="username" placeholder="用户名" required>
+                        <span class="am-input-group-label log-icon am-radius">
+                        <i class="am-icon-user am-icon-sm am-icon-fw"></i>
+                    </span>
+                    </div>
+                    <br>
+                    <div class="am-input-group am-animation-slide-left log-animation-delay">
+                        <input type="password" id="password" name="password" placeholder="密码" required>
+                        <span class="am-input-group-label log-icon am-radius">
+                        <i class="am-icon-lock am-icon-sm am-icon-fw"></i>
+                    </span>
+                    </div>
+                    <br>
+                    <div class="am-input-group am-radius am-animation-slide-left">
+                        <input type="email" id="email" name="email" placeholder="邮箱" required>
+                        <span class="am-input-group-label log-icon am-radius">
+                        <i class="am-icon-user am-icon-sm am-icon-fw"></i>
+                    </span>
+                    </div>
+                    <br>
+
+                    <!--                    <div class="am-input-group am-radius am-animation-slide-left">&ndash;&gt;-->
+                    <!--                        <input type="file" class="form-control-file" id="avatar" name="avatar" accept="image/*">上传头像-->
+                    <!--                        <input type="file" class="form-control-file" style=" color:black" id="avatar"-->
+
+                    <!--                               placeholder="上传头像" name="avatar" accept="image/*" >-->
+                    <!--                        <span class="am-input-group-label log-icon am-radius">-->
+                    <!--                        <i class="am-icon-lock am-icon-sm am-icon-fw"></i>-->
+                    <!--                            </span>-->
+
+                    <!--                    </div>-->
+                    <div style="padding-top: 10px;">
+                        <button type="submit"  class="am-btn am-btn-primary am-btn-block am-btn-lg am-radius am-animation-slide-bottom log-animation-delay" style=" color:black">注册</button>
+                    </div>
+                    <br>
+                </form>
+                <a href="login" style=" color:#122b40">返回登录页面</a>
+            </center>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+
